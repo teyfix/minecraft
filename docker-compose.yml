@@ -1,0 +1,151 @@
+x-variables:
+  - &rcon-host '${RCON_HOST}'
+  - &rcon-port '${RCON_PORT}'
+  - &rcon-password '${RCON_PASSWORD}'
+
+services:
+  minecraft:
+    container_name: *rcon-host
+    image: itzg/minecraft-server
+    tty: true
+    stdin_open: true
+    ports:
+      - "25565:25565"
+    networks:
+      - default
+    environment:
+      EULA: "TRUE"
+      ICON: "" # The url or file path for the icon image to use for the server. It will be downloaded, scaled, and converted to the proper format.
+      MAX_MEMORY: "1G" # independently sets the max heap size G
+      ONLINE_MODE: "FALSE" # By default, server checks connecting players against Minecraft's account database. If you want to create an offline server or your server is not connected to the internet, you can disable the server to try connecting to minecraft.net to authenticate players true
+      OVERRIDE_ICON: "TRUE" # The server icon which has been set doesn't get overridden by default. Set this to TRUE to override the icon FALSE
+      RCON_PASSWORD: *rcon-password # You MUST change this value Randomly generated ✅
+      RCON_PORT: *rcon-password # The port for RCON 25575
+      SERVER_NAME: ""
+        # The server name
+        # ALLOW_FLIGHT: # Allows users to use flight on your server while in Survival mode, if they have a mod that provides flight installed. FALSE
+        # ALLOW_NETHER: # Allows players to travel to the Nether true
+        # ANNOUNCE_PLAYER_ACHIEVEMENTS: # Allows server to announce when a player gets an achievement. true
+        # AUTOPAUSE_KNOCK_INTERFACE: # Describes the interface passed to the knockd daemon. If the default interface does not work, run the ifconfig command inside the container and derive the interface receiving the incoming connection from its output. The passed interface must exist inside the container. Using the loopback interface (lo) does likely not yield the desired results. eth0
+        # AUTOPAUSE_PERIOD # describes period of the daemonized state machine, that handles the pausing of the process
+        # AUTOPAUSE_TIMEOUT_EST # describes the time between the last client disconnect and the pausing of the process
+        # AUTOPAUSE_TIMEOUT_INIT # describes the time between server start and the pausing of the process, when no client connects in-between
+        # AUTOPAUSE_TIMEOUT_KN # describes the time between knocking of the port (e.g. by the main menu ping) and the pausing of the process, when no client connects in-between
+        # AUTOSTOP_PERIOD # describes period of the daemonized state machine, that handles the stopping of the serve
+        # AUTOSTOP_TIMEOUT_EST # describes the time between the last client disconnect and the stopping of the server
+        # AUTOSTOP_TIMEOUT_INIT # describes the time between server start and the stopping of the server, when no client connects in-between
+        # BROADCAST_RCON_TO_OPS: # Should RCON be enabled false
+        # CF_API_KEY # YOUR CurseForge (Eternal) API Key.
+        # CF_EXCLUDE_INCLUDE_FILE: # Global and per modpack exclusions can be declared in a JSON file and referenced with this variable.
+        # CF_EXCLUDE_MODS: # Mods can be excluded by passing a comma or space delimited list of project slugs or IDs
+        # CF_FILE_ID: # The mod curseforge numerical ID.
+        # CF_FILENAME_MATCHER: # Specify a substring to match the desired filename
+        # CF_FORCE_INCLUDE_MODS: # Mods can be included by passing a comma or space delimited list of project slugs or IDs
+        # CF_FORCE_SYNCHRONIZE: # Forces the excludes/includes to be re-evaluated
+        # CF_OVERRIDES_SKIP_EXISTING # if set, files in the overrides that already exist in the data directory are skipped. world data is always skipped, if present. false
+        # CF_PAGE_URL: # Pass a page URL to the modpack or a specific file
+        # CF_PARALLEL_DOWNLOADS # specify how many parallel mod downloads to perform
+        # CF_SET_LEVEL_FROM: # Some modpacks come with world/save data via a worlds file and/or the overrides provided with the modpack. Either approach can be selected to set the LEVEL to the resulting saves directory by setting this to either:
+        # CF_SLUG: # Instead of a URL, the modpack slug can be provided.
+        # CONSOLE: # Some older versions (pre-1.14) of Spigot required --noconsole to be passed when detaching stdin TRUE
+        # DEBUG_AUTOPAUSE: # Adds additional debugging output for AutoPause false
+        # DEBUG_AUTOSTOP: # Adds additional logging for AutoStop false
+        # DIFFICULTY: # The difficulty level. Available values: peaceful,easy,normal,hard easy
+        # ENABLE_AUTOPAUSE: # Enable the Autopause functionality FALSE
+        # ENABLE_AUTOSTOP: # Enable the AutoStop functionality FALSE
+        # ENABLE_COMMAND_BLOCK: # Enables the command blocks.
+        # ENABLE_JMX # enable-jmx-monitoring
+        # ENABLE_JMX: # To enable remote JMX, such as for profiling with VisualVM or JMC, add the environment variable ENABLE_JMX=true false
+        # ENABLE_RCON: # Enable/disable RCON support; however, be aware that disabling RCON will remove and limit some features, such as interactive and color console support. true
+        # ENABLE_ROLLING_LOGS: # By default the vanilla log file will grow without limit. The logger can be reconfigured to use a rolling log files strategy by setting this to true false
+        # ENABLE_STATUS # enable-status
+        # ENABLE_WHITELIST: # Enable the whitelist to manually manage the whitelist false
+        # ENTITY_BROADCAST_RANGE_PERCENTAGE # entity-broadcast-range-percentage
+        # EULA: # You MUST set this to true   ✅
+        # EXEC_DIRECTLY: # If you would like to docker attach to the Minecraft server console with color and interactive capabilities, then set to true false
+        # EXTRA_ARGS: # Arguments that would usually be passed to the jar file (those which are written after the filename)
+        # FORCE_GAMEMODE: # Force players to join in the default game mode. false
+        # FUNCTION_PERMISSION_LEVEL # function-permission-level
+        # GENERATE_STRUCTURES: # Defines whether structures (such as villages) will be generated. true
+        # GENERATOR_SETTINGS: # For some of the level types, GENERATOR_SETTINGS can be used to further customize the world generation as described here.
+        # GID: # The linux group id to run as 1000
+        # GUI: # Some older servers get confused and think that the GUI interface is enabled. TRUE
+        # HARDCORE: # If set to true, players will be set to spectator mode if they die. false
+        # INIT_MEMORY: # Independently sets the initial heap size 1G
+        # JMX_HOST: # If JMX is enabled, set JMX_HOST to the IP/host running the Docker container, and add a port forwarding of TCP port 7091
+        # JVM_DD_OPTS: # As a shorthand for passing several system properties as -D arguments, you can instead pass a comma separated list of name=value or name:value pairs with JVM_DD_OPTS. (The colon syntax is provided for management platforms like Plesk that don't allow = inside a value.)
+        # JVM_OPTS: # General JVM options can be passed to the Minecraft Server invocation by passing a JVM_OPTS environment variable. The JVM requires -XX options to precede -X options, so those can be declared in JVM_XX_OPTS. Both variables are space-delimited, raw JVM arguments
+        # JVM_XX_OPTS: # General JVM options can be passed to the Minecraft Server invocation by passing a JVM_OPTS environment variable. The JVM requires -XX options to precede -X options, so those can be declared in JVM_XX_OPTS. Both variables are space-delimited, raw JVM arguments
+        # LEVEL_TYPE: # By default, a standard world is generated with hills, valleys, water, etc. A different level type can be configured by setting LEVEL_TYPE to an expected type listed here. minecraft:default
+        # LEVEL: # You can either switch between world saves or run multiple containers with different saves by using the LEVEL option world
+        # LOG_TIMESTAMP: # To include the timestamp with each log set to true false
+        # MAX_BUILD_HEIGHT: # The maximum height in which building is allowed. Terrain may still naturally generate above a low height limit. 256
+        # MAX_PLAYERS: # The maximum number of players that can join the server. 20
+        # MAX_WORLD_SIZE: # The maximum possible size in blocks, expressed as a radius.
+        # MEMORY: # The image declares an initial and maximum Java memory-heap limit of 1 GB. 1G
+        # MODE: # Minecraft servers are configured to run in Survival mode by default. You can change the mode using MODE where you can either provide the standard numerical values or the shortcut values:
+        # MOTD: # Set the server log in message.
+        # NETWORK_COMPRESSION_THRESHOLD # network-compression-threshold
+        # OP_PERMISSION_LEVEL # op-permission-level
+        # OVERRIDE_WHITELIST: # Enforce regeneration of the whitelist on each server startup. false
+        # PLAYER_IDLE_TIMEOUT # player-idle-timeout
+        # PREVENT_PROXY_CONNECTIONS # prevent-proxy-connections
+        # PROXY: # You may configure the use of an HTTP/HTTPS proxy by passing the proxy's URL false
+        # PVP: # By default, servers are created with player-vs-player (PVP) mode enabled. true
+        # RCON_CMDS_LAST_DISCONNECT # RCON commands can be configured to execute when the server starts, a client connects, or a client disconnects
+        # RCON_CMDS_ON_CONNECT # RCON commands can be configured to execute when the server starts, a client connects, or a client disconnects
+        # RCON_CMDS_ON_DISCONNECT # RCON commands can be configured to execute when the server starts, a client connects, or a client disconnects
+        # RCON_CMDS_STARTUP # RCON commands can be configured to execute when the server starts, a client connects, or a client disconnects
+        # RCON_CMDS_STARTUP # RCON commands can be configured to execute when the server starts, a client connects, or a client disconnects
+        # The port for RCON 25575
+        # RESOURCE_PACK # A link to a custom resource pack
+        # RESOURCE_PACK_ENFORCE: # Enforce the resource pack on clients FALSE
+        # SEED: # Sets the seed to create the Minecraft world. If you use a negative number, make sure that it is in quotes.
+        # SERVER_PORT: # Only change this value if you know what you're doing. It is only needed when using host networking and it is rare that host networking should be used.
+        # SETUP_ONLY: # If you are using a host-attached data directory, then you can have the image setup the Minecraft server files and stop prior to launching the server process by setting this to true false
+        # SIMULATION_DISTANCE # simulation-distance
+        # SNOOPER_ENABLED: # If set to false, the server will not send data to snoop.minecraft.net server. true
+        # SPAWN_ANIMALS: # Determines if animals will be able to spawn. true
+        # SPAWN_MONSTERS: # Determines if monsters will be spawned. true
+        # SPAWN_NPCS: # Determines if villagers will be spawned. true
+        # SPAWN_PROTECTION: # Sets the area that non-ops can not edit (0 to disable)
+        # STOP_DURATION: # When the container is signalled to stop, the Minecraft process wrapper will attempt to send a "stop" command via RCON or console and waits for the process to gracefully finish. 60
+        # STOP_SERVER_ANNOUNCE_DELAY: # To allow time for players to finish what they're doing during a graceful server shutdown, set STOP_SERVER_ANNOUNCE_DELAY to a number of seconds to delay after an announcement is posted by the server.
+        # SYNC_CHUNK_WRITES # sync-chunk-writes
+        # TYPE: # The server type VANILLA
+        # TZ: # You can configure the timezone to match yours by setting the TZ environment variable. alternatively, you can mount: /etc/localtime:/etc/localtime:ro /etc/timezone:/etc/timezone:ro UTC
+        # UID: # The linux user id to run as 1000
+        # USE_AIKAR_FLAGS: # Aikar has done some research into finding the optimal JVM flags for GC tuning, which becomes more important as more users are connected concurrently false
+        # USE_FLARE_FLAGS: # To enable the JVM flags required to fully support the Flare profiling suite.
+        # USE_NATIVE_TRANSPORT # use-native-transport
+        # USE_SIMD_FLAGS: # Support for optimized SIMD operation false
+        # VERSION: # The minecraft version LATEST
+        # VIEW_DISTANCE: # Sets the amount of world data the server sends the client, measured in chunks in each direction of the player (radius, not diameter). It determines the server-side viewing distance.
+        # WHITELIST # A list of usernames andor UUIDs separated by comma
+        # WHITELIST_FILE # A url or file path to a whitelist json formatted file.
+    volumes:
+      - mc-data:/data
+  rcon-updater:
+    image: debian:latest
+    depends_on:
+      - mc
+    environment:
+      RCON_HOST: *rcon-host
+      RCON_PORT: *rcon-port
+      RCON_PASSWORD: *rcon-password
+    volumes:
+      - ./oplist.txt:/oplist.txt
+      - ./update_oplist.sh:/update_oplist.sh
+    entrypoint: /bin/bash
+    command: -c "while true; do /update_oplist.sh; sleep 3600; done" # Updates every hour
+    networks:
+      - default
+
+volumes:
+  mc-data:
+
+
+networks:
+  default:
+    external:
+      name: minecraft
