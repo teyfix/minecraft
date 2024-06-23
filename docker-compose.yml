@@ -147,6 +147,7 @@ services:
     depends_on:
       - minecraft
     environment:
+      OPLIST: ${OPLIST:?}
       RCON_HOST: "${MC_HOST:-minecraft}"
       RCON_PORT: ${RCON_PORT:-25575}
       RCON_PASSWORD: ${RCON_PASSWORD:?}
