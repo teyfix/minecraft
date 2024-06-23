@@ -143,11 +143,12 @@ services:
       - internal
     volumes:
       - ./rcon-updater:/rcon-updater
-    entrypoint: /rcon-updater/update.sh
+    command: bash /rcon-updater/update.sh
     depends_on:
       - minecraft
     environment:
-      OPLIST: ${OPLIST:?}
+      OPLIST: ${MC_OPS:?}
+      SLEEP_TIME: ${MC_OPS_SLEEP:?}
       RCON_HOST: "${MC_HOST:-minecraft}"
       RCON_PORT: ${RCON_PORT:-25575}
       RCON_PASSWORD: ${RCON_PASSWORD:?}
@@ -158,3 +159,4 @@ volumes:
 
 networks:
   internal:
+    driver: bridge
