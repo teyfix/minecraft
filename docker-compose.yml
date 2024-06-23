@@ -17,6 +17,7 @@ services:
       RCON_PASSWORD: ${RCON_PASSWORD:?} # You MUST change this value Randomly generated ✅
       RCON_PORT: ${RCON_PORT:-25575} # The port for RCON 25575
       SERVER_NAME: "${MC_SERVER_NAME:-Minecraft Server}" # The server name
+      BROADCAST_RCON_TO_OPS: "TRUE" # Should RCON be enabled false
         # The server name
         # ALLOW_FLIGHT: # Allows users to use flight on your server while in Survival mode, if they have a mod that provides flight installed. FALSE
         # ALLOW_NETHER: # Allows players to travel to the Nether true
@@ -29,7 +30,6 @@ services:
         # AUTOSTOP_PERIOD # describes period of the daemonized state machine, that handles the stopping of the serve
         # AUTOSTOP_TIMEOUT_EST # describes the time between the last client disconnect and the stopping of the server
         # AUTOSTOP_TIMEOUT_INIT # describes the time between server start and the stopping of the server, when no client connects in-between
-        # BROADCAST_RCON_TO_OPS: # Should RCON be enabled false
         # CF_API_KEY # YOUR CurseForge (Eternal) API Key.
         # CF_EXCLUDE_INCLUDE_FILE: # Global and per modpack exclusions can be declared in a JSON file and referenced with this variable.
         # CF_EXCLUDE_MODS: # Mods can be excluded by passing a comma or space delimited list of project slugs or IDs
@@ -146,10 +146,10 @@ services:
     entrypoint: /rcon-updater/update.sh
     depends_on:
       - minecraft
-    # environment:
-    #   RCON_HOST: "${MC_HOST:-minecraft}"
-    #   RCON_PORT: ${RCON_PORT:-25575}
-    #   RCON_PASSWORD: ${RCON_PASSWORD:?}
+    environment:
+      RCON_HOST: "${MC_HOST:-minecraft}"
+      RCON_PORT: ${RCON_PORT:-25575}
+      RCON_PASSWORD: ${RCON_PASSWORD:?}
 
 volumes:
   mc-data:
