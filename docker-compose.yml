@@ -8,6 +8,8 @@ services:
       - "${MC_PORT:-25565}:25565"
     networks:
       - internal
+    healthcheck:
+      test: bash -x mc-health
     environment:
       EULA: "TRUE"
       ICON: "" # The url or file path for the icon image to use for the server. It will be downloaded, scaled, and converted to the proper format.
@@ -129,7 +131,8 @@ services:
     networks:
       - internal
     depends_on:
-      - minecraft
+      minecraft:
+        condition: service_healthy
     environment:
       RWA_USERNAME: ${RWA_USERNAME:?}
       RWA_PASSWORD: ${RWA_PASSWORD:?}
@@ -138,14 +141,14 @@ services:
       RWA_RCON_PASSWORD: ${RCON_PASSWORD:?}
 
   rcon-updater:
-    image: itzg/rcon-cli:1.6.7-ubuntu
+    build: 
+      context: ./rcon-updater
     networks:
       - internal
-    volumes:
-      - ./rcon-updater:/rcon-updater
-    command: bash /rcon-updater/update.sh
+    restart: unless-stopped
     depends_on:
-      - minecraft
+      minecraft:
+        condition: service_healthy
     environment:
       OPLIST: ${MC_OPS:?}
       SLEEP_TIME: ${MC_OPS_SLEEP:?}
@@ -155,7 +158,6 @@ services:
 
 volumes:
   mc-data:
-
 
 networks:
   internal:

@@ -16,11 +16,7 @@ while true; do
   # Loop through each operator in the array and update the operator list
   for op in "${ops[@]}"; do
     if [[ -n "$op" ]]; then
-      echo "Adding operator: $op"
-
-      if ! echo "op $op" | rcon-cli --host="$RCON_HOST" --port="$RCON_PORT" --password="$RCON_PASSWORD"; then
-        echo "Failed to add operator: $op" >&2
-      fi
+      echo "op $op" | rcon-cli --host="$RCON_HOST" --port="$RCON_PORT" --password="$RCON_PASSWORD" || echo "Failed to update operator list for $op" >&2
     fi
   done
 
